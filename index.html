@@ -52,9 +52,10 @@
 
     <div class="row">
         <div class="col-md-12 search-container">
-            <h2>Sona Class Room Search</h2>
+            <h2>Sona Search</h2>
             <div class="form-group">
-                <label for="searchInput">Enter Class No:</label>
+                <label for="searchInput">Enter Name or Number to Search:</label>
+                <div class="mt-3"></div>
                 <input type="text" class="form-control" id="searchInput" placeholder="Enter Class No">
             </div>
             <div class="mt-3">
@@ -74,6 +75,20 @@
         "502-504": "IT Block Ground Floor",
         "521-524": "IT Block Second Floor",
         "532-534": "IT Block Third Floor",
+        //IT Labs
+        "mtech lab": "IT Block First Floor",
+        "m.tech lab": "IT Block First Floor",
+        "it project lab": "IT Block First Floor",
+        "iot lab": "IT Block Third Floor",
+        "it main lab": "MECH Block Ground Floor",
+        "foss lab":"IT Block First Floor",
+        "language lab":"IT Block First Floor",
+        //IT Staff Rooms
+        "it hod":"IT Block First Floor",
+        "akilandeswari mam":"HOD Cabin IT Block First Floor",
+        "mohanraj sir": ["IT Block First Floor - Near HOD Cabin","IT Block First Floor - Near FOSS Lab"],
+        "naveen kumar sir":"IT Block First Floor - IT Project Lab",
+
         //Civil
         "601-603": "Civil Block Ground Floor",
         "614": "Civil Block First Floor",
@@ -100,37 +115,55 @@
         "311-314": "CSE Block First Floor",
         "321-324": "CSE Block Second Floor",
         "332-334": "CSE Block Third Floor",
+        //CSE Labs
+        "cse iot lab":"CSE Ground Floor",
+        "cse hod":"University Block First Floor",
         //BME
         "941-944": "ECE Block Third Floor (BME DEPT)",
+
+        //SBIC
+        "sbic":"Behind CSE Block",
+        "dhanasu sir":"SBIC",
+        "sonaversity":"Behind SBIC",
+        "edc cell":"SBIC Class Room",
+
+        //University block
+        "pricipal":"University Block First Floor",
+        "srr senthil kumar sir":"University Block First Floor",
+        "sona incubation foundation":"University Block Second Floor",
+        "placement cell":"University Block Third Floor",
+        "vice chairman":"University Block Fourth Floor",
+        "thyagu valliappa sir":"University Block Fourth Floor",
+
     };
 
     function search() {
-        const searchInput = document.getElementById("searchInput").value.trim();
+        const searchInput = document.getElementById("searchInput").value.trim().toLowerCase(); // Convert input to lowercase
         const searchResultElement = document.getElementById("searchResult");
-
+    
         // Check for exact matches first
         if (data.hasOwnProperty(searchInput)) {
             const result = data[searchInput];
             searchResultElement.innerHTML = `<p>${result}</p>`;
             return;
         }
-
+    
         // Check if the input matches any range in the data
         for (const range in data) {
             if (data.hasOwnProperty(range)) {
                 const [start, end] = range.split('-').map(Number);
-                const inputValue = Number(searchInput);
-
-                if (!isNaN(inputValue) && inputValue >= start && inputValue <= end) {
+                const formattedRange = range.toLowerCase(); // Convert range to lowercase
+                const inputValue = searchInput.replace(/\s+/g, ''); // Remove whitespace from input
+    
+                if (formattedRange.includes(inputValue)) { // Check if formatted range includes input value
                     const result = data[range];
                     searchResultElement.innerHTML = `<p>${result}</p>`;
                     return; // Exit the function if a match is found
                 }
             }
         }
-
         searchResultElement.innerHTML = "<p>Sorry no result found please verify the number entered.</p>";
-    }
+    } 
 </script>
 
 </body>
